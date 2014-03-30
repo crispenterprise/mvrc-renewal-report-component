@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report3" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97ed428d-4512-41a8-a91a-4f79ab9c35eb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="17" y="0" width="723" height="79" uuid="25a2790d-1bfd-4f6c-90c7-c6802c7428dd"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[LIST OF APPROVED MOTOR VEHICLE REGISTRATION RENEWAL PAYMENTS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="579" y="15" width="223" height="20" uuid="4fc2d032-9637-486b-a5b9-380a8b037b53"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="37" splitType="Stretch">
+			<staticText>
+				<reportElement x="21" y="7" width="100" height="20" uuid="2c684885-63a4-4642-8174-8f1c5837e510"/>
+				<text><![CDATA[RECEIPT DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="7" width="100" height="20" uuid="59e899a3-1942-4545-9881-16f7ca7ad550"/>
+				<text><![CDATA[RECEIPT NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="7" width="100" height="20" uuid="9baf7e2c-f19f-4d9a-be14-08fc72554025"/>
+				<text><![CDATA[PLATE NO.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="7" width="127" height="20" uuid="fc1a1a28-3aa9-4e8f-af00-e6f3c9f2783a"/>
+				<text><![CDATA[REGISTRATION PERIOD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="669" y="7" width="100" height="20" uuid="3268be2a-0f77-4abe-973f-04f445b7b82f"/>
+				<text><![CDATA[NEW EXPIRY DATE]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="31" width="802" height="1" uuid="950dad98-107f-4c5c-bff6-b625ebb343cf"/>
+			</line>
+			<line>
+				<reportElement x="0" y="2" width="802" height="1" uuid="6b0d5b4a-5cae-4fea-af86-1e7efb25b266"/>
+			</line>
+			<staticText>
+				<reportElement x="268" y="7" width="100" height="20" uuid="fb3a7fb9-fda9-49b5-b70d-3c00771e9f3d"/>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
