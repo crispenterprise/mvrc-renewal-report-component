@@ -3,27 +3,67 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select date(b.payment_dtime),c.receipt_no, concat_ws(' ', e.first_name,e.last_name) as name,
+a.plate_no ,a.renewal_period,a.new_reg_expiry_date
+from application a, payment b, receipt c, user_account d, person e
+where a.application_no = b.application_no
+and b.payment_id = c.payment_id
+and a.account_no = d.account_no
+and d.person_id = e.person_id
+and a.application_status = 'completed']]>
+	</queryString>
+	<field name="date(b.payment_dtime)" class="java.sql.Date"/>
+	<field name="receipt_no" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String"/>
+	<field name="plate_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="renewal_period" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="new_reg_expiry_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="17" y="0" width="723" height="79" uuid="25a2790d-1bfd-4f6c-90c7-c6802c7428dd"/>
+				<reportElement x="21" y="6" width="723" height="65" uuid="25a2790d-1bfd-4f6c-90c7-c6802c7428dd"/>
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>
 				<text><![CDATA[LIST OF APPROVED MOTOR VEHICLE REGISTRATION RENEWAL PAYMENTS]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="73" width="802" height="1" uuid="4c0a71cf-2984-4c5f-99df-fee7b8851cfb"/>
+			</line>
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" uuid="7a9f8d25-eb5c-4d95-9a33-9d442d3ee52a"/>
+			</line>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="579" y="15" width="223" height="20" uuid="4fc2d032-9637-486b-a5b9-380a8b037b53"/>
-				<textElement textAlignment="Right"/>
+				<reportElement x="653" y="1" width="149" height="20" uuid="4fc2d032-9637-486b-a5b9-380a8b037b53"/>
+				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="683" y="22" width="48" height="20" uuid="a10d4a42-56cb-451d-a20a-0d9ed755ef81"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="653" y="23" width="29" height="20" uuid="19a0749e-560d-4c9b-9f8e-82f29d4b08f8"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[Page:]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -61,7 +101,32 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="143" y="6" width="100" height="20" uuid="58b01397-297f-47ca-ab67-3e02b25de91f"/>
+				<textFieldExpression><![CDATA[$F{receipt_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="6" width="134" height="20" uuid="bc48e534-a5ff-4ab7-8417-a5c3aa14e011"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="6" width="100" height="20" uuid="ccc647e9-5af6-4dcb-ac59-b5e3e03c42c8"/>
+				<textFieldExpression><![CDATA[$F{plate_no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="6" width="100" height="20" uuid="caf417e9-aade-414f-a38f-34d6818e9ad1"/>
+				<textFieldExpression><![CDATA[$F{renewal_period}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="669" y="6" width="121" height="20" uuid="40fa47e0-2563-4105-b29c-d3f6fe93d3bb"/>
+				<textFieldExpression><![CDATA[$F{new_reg_expiry_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="YYYY-MM-dd">
+				<reportElement x="21" y="6" width="100" height="20" uuid="a55b6c25-b5ab-4206-8b0a-fc00dfefce99"/>
+				<textFieldExpression><![CDATA[$F{date(b.payment_dtime)}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>

@@ -2,6 +2,8 @@ package com.crisp.mvrc.report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mysql.jdbc.Connection;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -48,18 +52,27 @@ public class TransactionReport extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		ServletContext context = this.getServletConfig().getServletContext();
+		Connection dbConnection;
 		
 		try {
-	         /**
-	          * Compile the report to a file name same as
-	          * the JRXML file name
-	          */
+			
+			 Class.forName("com.mysql.jdbc.Driver");
+			 
+			 String url =
+			            "jdbc:mysql://localhost:3306/genaudit";
+					
+				
+						
+						dbConnection =
+						    (Connection) DriverManager.getConnection(url,"root", "");	
+			 
+			 
 	         JasperCompileManager.compileReportToFile(context.getRealPath("/report/report3.jrxml"));
 	         
 	       
 	        byte[] bytes =
-	 				JasperRunManager.runReportToPdf(context.getRealPath("/report/report3.jasper"), null, new JREmptyDataSource());
-	 		
+	 				JasperRunManager.runReportToPdf(context.getRealPath("/report/report3.jasper"), null, dbConnection);
+	        
 	        System.out.println("bytes: " + bytes.length);
 	        
 	        if (bytes != null && bytes.length > 800) 
@@ -91,7 +104,13 @@ public class TransactionReport extends HttpServlet {
 		
 		} catch (JRException e) {
 	         e.printStackTrace();
-	      }
+	      } catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	      System.out.println("Done compiling!!! ...");
 		
 	}
