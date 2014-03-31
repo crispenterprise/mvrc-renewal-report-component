@@ -1,6 +1,7 @@
 package com.crisp.mvrc.report;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -45,13 +46,9 @@ public class TransactionReport extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Transaction Report Servlet....");
-
-		// First, load JasperDesign from XML and compile it into JasperReport 
-		// JasperDesign jasperDesign = JasperManager.loadXmlDesign("report/report3.jrxml");
-		// JasperReport jasperReport = JasperManager.compileReport(jasperDesign);
+		
 		ServletContext context = this.getServletConfig().getServletContext();
-		System.out.println(context.getRealPath("/report/report3.jasper"));
+		
 		try {
 	         /**
 	          * Compile the report to a file name same as
@@ -61,11 +58,11 @@ public class TransactionReport extends HttpServlet {
 	         
 	       
 	        byte[] bytes =
-	 				JasperRunManager.runReportToPdf("C:\\Users\\Riley\\Documents\\GitHub\\mvrc-renewal-report-component\\MVRCReportingComponent\\report\\report3.jasper", null, new JREmptyDataSource());
+	 				JasperRunManager.runReportToPdf(context.getRealPath("/report/report3.jasper"), null, new JREmptyDataSource());
 	 		
 	        System.out.println("bytes: " + bytes.length);
 	        
-	        if (bytes != null) 
+	        if (bytes != null && bytes.length > 800) 
 			{
 				response.setContentType("application/pdf");
 				response.setContentLength(bytes.length);
@@ -73,7 +70,24 @@ public class TransactionReport extends HttpServlet {
 				ouputStream.write(bytes, 0, bytes.length);
 				ouputStream.flush();
 				ouputStream.close();
-			} 
+			}else
+			{
+				response.setContentType("text/html");
+				PrintWriter out = response.getWriter();
+				
+				out.println("<html>");
+				out.println("<head>");
+				out.println("<title>Transaction Report</title>");
+				out.println("<html:base/>");
+				out.println("</head>");
+
+				out.println("<body>");
+			
+				out.println("<b>No records found matching criteria.</b>");
+
+				out.println("</body>");
+				out.println("</html>");
+			}
 		
 		} catch (JRException e) {
 	         e.printStackTrace();
