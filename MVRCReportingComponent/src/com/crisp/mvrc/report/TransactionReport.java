@@ -64,7 +64,7 @@ public class TransactionReport extends HttpServlet {
 				
 						
 						dbConnection =
-						    (Connection) DriverManager.getConnection(url,"root", "");	
+						    (Connection) DriverManager.getConnection(url,"root", "root");	
 			 
 			 
 	         JasperCompileManager.compileReportToFile(context.getRealPath("/report/report3.jrxml"));
@@ -76,7 +76,8 @@ public class TransactionReport extends HttpServlet {
 	        System.out.println("bytes: " + bytes.length);
 	        
 	        if (bytes != null && bytes.length > 800) 
-			{
+			{	
+	        	response.setStatus(200);
 				response.setContentType("application/pdf");
 				response.setContentLength(bytes.length);
 				ServletOutputStream ouputStream = response.getOutputStream();
@@ -84,33 +85,41 @@ public class TransactionReport extends HttpServlet {
 				ouputStream.flush();
 				ouputStream.close();
 			}else
-			{
+			{	response.setStatus(200);
 				response.setContentType("text/html");
 				PrintWriter out = response.getWriter();
 				
 				out.println("<html>");
 				out.println("<head>");
 				out.println("<title>Transaction Report</title>");
-				out.println("<html:base/>");
 				out.println("</head>");
 
 				out.println("<body>");
 			
-				out.println("<b>No records found matching criteria.</b>");
+				out.println("<b>No records found.</b>");
 
 				out.println("</body>");
 				out.println("</html>");
 			}
 		
-		} catch (JRException e) {
-	         e.printStackTrace();
-	      } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {
+	         //e.printStackTrace();
+			response.setStatus(422);
+			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title>Transaction Report</title>");
+			out.println("</head>");
+
+			out.println("<body>");
+		
+			out.println("<b>System Error Occured.</b>");
+
+			out.println("</body>");
+			out.println("</html>");
+	      } 
 	      System.out.println("Done compiling!!! ...");
 		
 	}
